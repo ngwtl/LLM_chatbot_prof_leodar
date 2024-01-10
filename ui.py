@@ -3,7 +3,7 @@ import json
 import os
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
-from streamlit_cookies_manager import EncryptedCookieManager
+from cookie_manager import EncryptedCookieManager
 from utility import check_user_password
 from utility import load_lottieurl
 from utility import check_valid_name
