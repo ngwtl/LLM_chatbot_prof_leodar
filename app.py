@@ -3,6 +3,7 @@ from ui import __login__
 from tinydb import TinyDB
 from datetime import datetime
 
+st.set_page_config(page_title='Prof Leodar', page_icon = 'student')
 
 __login__obj = __login__(auth_token = "courier_auth_token",
                     app_name = "LLM Assistance",
