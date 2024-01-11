@@ -29,7 +29,7 @@ def check_user_password(username: str, password: str) -> bool:
 
   try:
     index = usernames.index(username)
-    passwd_verfiication_bool = ph.verify(passwords[index], password)
+    passwd_verification_bool = ph.verify(passwords[index], password)
     if passwd_verification_bool == True:
         return True
   except:
