@@ -19,6 +19,8 @@ The library will allow user to ask questions to LLM chatbot.
 
 ## Authors
 - [@mgthway](https://github.com/mgthway)
+
+These authors contributed indirectly as some codes from their repository are incoporated.
 - [@gauriprabhakar](https://github.com/GauriSP10)
 
 ## PyPi
