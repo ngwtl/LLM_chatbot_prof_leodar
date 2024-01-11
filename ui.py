@@ -239,9 +239,7 @@ class __login__:
     </style> """, unsafe_allow_html=True)
 
   def build_login_ui(self):
-    
-    st.set_page_config(page_title='Prof Leodar', page_icon = 'student')
-    
+     
     #core ui building
     if 'LOGGED_IN' not in st.session_state:
       st.session_state['LOGGED_IN'] = False
