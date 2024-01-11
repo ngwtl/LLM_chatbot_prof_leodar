@@ -1,5 +1,8 @@
 import streamlit as st
 from ui import __login__
+from tinydb import TinyDB
+from datetime import datetime
+
 
 __login__obj = __login__(auth_token = "courier_auth_token",
                     app_name = "LLM Assistance",
@@ -12,8 +15,29 @@ LOGGED_IN= __login__obj.build_login_ui()
 username= __login__obj.get_username()
 
 if LOGGED_IN == True:
+  db = TinyDB ('conversation.json')
+  st.title('Prof. Leodar at your service")
 
-   st.markdown("Your Streamlit Application Begins here!")
-   st.markdown(st.session_state)
-   st.write(username)
-                                      
+  if 'messages' not in st.session_state:
+    st.session_state.messages = []
+
+  for message in st.session_state.messages:
+    with st.chat_message(message['role']):
+        st.markdown(message['content'])
+  if prompt := st.chat_input('Write your message'):
+    st.chat_message('user').markdown(prompt)
+
+    dt = datetime.now()
+    db.insert({'role':username, 'content':prompt, 'time':str(dt)})
+
+    st.session_state.messages.append({'role': 'user', 'content': prompt})
+
+    response = 'Prof. Leodar is currently in training.'
+
+    with st.chat_message('assistant'):
+      st.markdown(response)
+
+    dt = datetime.now()
+    db.insert({'role': 'assistant', 'content': response, 'time': str(dt), 'reply_to': prompt})
+
+    st.session_state.messages.append({'role': 'assistant', 'content': response})
