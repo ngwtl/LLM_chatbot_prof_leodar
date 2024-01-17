@@ -2,7 +2,7 @@ import streamlit as st
 from ui import __login__
 from tinydb import TinyDB
 from datetime import datetime
-from openai_llm_chat import OPENAI
+from openai_llm_chat import OPENAI_chat
 
 st.set_page_config(page_title='Prof Leodar', page_icon = 'student')
 
@@ -16,7 +16,7 @@ __login__obj = __login__(auth_token = "courier_auth_token",
 LOGGED_IN= __login__obj.build_login_ui()
 username= __login__obj.get_username()
 
-chatbot = OPENAI("openai_key")
+chatbot = OPENAI_chat("openai_key")
 
 if LOGGED_IN == True:
   db = TinyDB ('conversation.json')
