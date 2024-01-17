@@ -38,7 +38,7 @@ MarkupSafe==2.1.1
 matplotlib-inline==0.1.6
 nest-asyncio==1.5.5
 numpy==1.23.2
-packaging==21.3
+packaging==23.2
 pandas==1.4.3
 parso==0.8.3
 pickleshare==0.7.5
