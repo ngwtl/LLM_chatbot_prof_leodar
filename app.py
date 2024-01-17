@@ -15,6 +15,8 @@ __login__obj = __login__(auth_token = "courier_auth_token",
 LOGGED_IN= __login__obj.build_login_ui()
 username= __login__obj.get_username()
 
+chatbot = OPENAI("openai_key")
+
 if LOGGED_IN == True:
   db = TinyDB ('conversation.json')
   st.title("Prof. Leodar at your service")
@@ -33,7 +35,7 @@ if LOGGED_IN == True:
 
     st.session_state.messages.append({'role': 'user', 'content': prompt})
 
-    response = 'Prof. Leodar is currently in training.'
+    response = chatbot(query=prompt)
 
     with st.chat_message('assistant'):
       st.markdown(response)
