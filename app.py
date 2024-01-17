@@ -36,7 +36,7 @@ if LOGGED_IN == True:
 
     st.session_state.messages.append({'role': 'user', 'content': prompt})
 
-    response = chatbot(query=prompt)
+    response = chatbot.query_openai(query=prompt)
 
     with st.chat_message('assistant'):
       st.markdown(response)
