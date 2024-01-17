@@ -3,7 +3,7 @@ import os
 from langchain.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
 
-class OPENAI:
+class OPENAI_chat:
     def __init__(self, key: str):
         self.openai_token = key
         os.environ['OPENAI_API_KEY'] = str(self.openai_token)
