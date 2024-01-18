@@ -30,6 +30,7 @@ class OPENAI_chat:
         Your Answer:
         """
         context = self.search_db(query)
+        context = re.sub(r'(\w)\1{2,}', r'\1\1', context)
         return template.format(context=context, question=query)
 
     def get_completion(self, prompt:str) -> str:
@@ -45,5 +46,4 @@ class OPENAI_chat:
         query_result = self.get_completion(prompt)
         return query_result
 
-    def print_key (self):
-        print('The key is', self.openai_token)
+
