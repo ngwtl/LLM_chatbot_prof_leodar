@@ -16,7 +16,7 @@ __login__obj = __login__(auth_token = "courier_auth_token",
 LOGGED_IN= __login__obj.build_login_ui()
 username= __login__obj.get_username()
 
-chatbot = OPENAI_chat("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")
+chatbot = OPENAI_chat("your openai api key")
 
 if LOGGED_IN == True:
   db = TinyDB ('conversation.json')
