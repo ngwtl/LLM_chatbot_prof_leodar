@@ -16,32 +16,37 @@ __login__obj = __login__(auth_token = "courier_auth_token",
 LOGGED_IN= __login__obj.build_login_ui()
 username= __login__obj.get_username()
 
-chatbot = OPENAI_chat("openai_key")
+chatbot = OPENAI_chat("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")
 
 if LOGGED_IN == True:
   db = TinyDB ('conversation.json')
-  st.title("Prof. Leodar at your service")
 
   if 'messages' not in st.session_state:
     st.session_state.messages = []
 
-  for message in st.session_state.messages:
-    with st.chat_message(message['role']):
-        st.markdown(message['content'])
-  if prompt := st.chat_input('Write your message'):
-    st.chat_message('user').markdown(prompt)
+  consent = __login__obj.get_consent()
 
-    dt = datetime.now()
-    db.insert({'role':username, 'content':prompt, 'time':str(dt)})
+  if consent:
+    st.title("Prof. Leodar at your service")
+    for message in st.session_state.messages:
+       with st.chat_message(message['role']):
+          st.markdown(message['content'])
+    if prompt := st.chat_input('Write your message'):
+      st.chat_message('user').markdown(prompt)
 
-    st.session_state.messages.append({'role': 'user', 'content': prompt})
+      dt = datetime.now()
+      db.insert({'role':username, 'content':prompt, 'time':str(dt)})
 
-    response = chatbot.query_openai(query=prompt)
+      st.session_state.messages.append({'role': 'user', 'content': prompt})
 
-    with st.chat_message('assistant'):
-      st.markdown(response)
+      response = chatbot.query_openai(query=prompt)
 
-    dt = datetime.now()
-    db.insert({'role': 'assistant', 'content': response, 'time': str(dt), 'reply_to': prompt})
+      with st.chat_message('assistant'):
+        st.markdown(response)
 
-    st.session_state.messages.append({'role': 'assistant', 'content': response})
+      dt = datetime.now()
+      db.insert({'role': 'assistant', 'content': response, 'time': str(dt), 'reply_to': prompt})
+
+      st.session_state.messages.append({'role': 'assistant', 'content': response})
+  
+

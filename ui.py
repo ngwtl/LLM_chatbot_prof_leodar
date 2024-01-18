@@ -227,24 +227,23 @@ class __login__:
           "container": {"padding": "5px"},
           "nav-link": {"font-size": "14px", "text-align": "left", "margin":"0px"}} )
     return main_page_sidebar, selected_option
-  
-  def click_continue_button(self):
-    st.rerun()
-    
+
   def get_consent(self):
     if 'consent' not in st.session_state:
       st.session_state['consent'] = False
-    if 'continue_button' not in st.session_state:
-      st.session_state['continue_button'] = False
 
-    if st.session_state['LOGGED_IN'] == True and st.session_state['consent'] == False:
+    if st.session_state['consent'] == False:
+      with st.form("Consent Form"):
+        st.subheader('Consent Form')
         st.markdown('<div style="text-align: justify;">By continuing with this chatbot, you understand that you are interacting with a generative AI model that is based on curated notes, presentation slides and copyright free textbooks by the course team. The bot is not designed to answer questions outside of the course content. You understand that while the development team has fine-tuned the bot for accuracy and consistency, generative AI models can hallucinate. Hence, in case you are doubtful of the bot response, please reach out to your tutor or the development team. Finally, you consent to the collection and analysis of your interaction with the chatbot so that your professors and tutors can give you feedback and the development team can develop dashboards/analytics for you to understand how you are learning. Any publication as a result of the chatbot will not include your identity without your consent.</div>', unsafe_allow_html=True)
         st.markdown("")
         st.session_state['consent'] = st.checkbox(label='I confirm that I have read and understood.')
-        st.button('Continue', on_click=self.click_continue_button)
-          return st.session_state['consent']
+        submitted = st.form_submit_button('Submit')
+        if submitted:
+          st.rerun()
+    else:
+      return True
     return False
-        
     
   def hide_menu(self) -> None:
     st.markdown(""" <style>
