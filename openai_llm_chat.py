@@ -47,3 +47,5 @@ class OPENAI_chat:
         return query_result
 
 
+# Author: Thway
+# GitHub: https://github.com/mgthway/llm_chatbot/
