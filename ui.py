@@ -106,7 +106,7 @@ class __login__:
               self.cookies['__streamlit_login_signup_ui_username__'] = username
               self.cookies.save()
               del_login.empty()
-              st.experimental_rerun() #rerun the script from the top
+              st.rerun() #rerun the script from the top
 
   def animation(self) -> None:
     lottie_json = load_lottieurl(self.lottie_url)
@@ -213,7 +213,7 @@ class __login__:
         #assign a logout state cookie
         self.cookies['__streamlit_login_signup_ui_username__'] = '1c9a923f-fb21-4a91-b3f3-5f18b2f01182'
         del_logout.empty()
-        st.experimental_rerun()
+        st.rerun()
 
   def nav_sidebar(self):
     main_page_sidebar = st.sidebar.empty()
