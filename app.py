@@ -27,11 +27,18 @@ if LOGGED_IN == True:
   consent = __login__obj.get_consent()
 
   if consent:
+
     st.title("Prof. Leodar at your service")
+
+    chat_history = str('')
     for message in st.session_state.messages:
        with st.chat_message(message['role']):
           st.markdown(message['content'])
-    if prompt := st.chat_input('Write your message'):
+       chat_history += str(message['role']) + ':' + message['content'] + '\n' 
+    if len(chat_history.split('\n')) > 12:
+      chat_history = chat_history [-12:]
+
+    if prompt := st.chat_input('Write your message here'):
       st.chat_message('user').markdown(prompt)
 
       dt = datetime.now()
@@ -39,7 +46,7 @@ if LOGGED_IN == True:
 
       st.session_state.messages.append({'role': 'user', 'content': prompt})
 
-      response, context = chatbot.query_openai(query=prompt)
+      response, context = chatbot.query_openai(query=prompt, history=chat_history)
 
       with st.chat_message('assistant'):
         st.markdown(response)
