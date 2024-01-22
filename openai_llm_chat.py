@@ -17,31 +17,32 @@ class OPENAI_chat:
             result += i.page_content
         return result.replace("\n", " ")
 
-    def prepare_prompt (self, query: str) -> str:
+    def prepare_prompt (self, query: str, history: str) -> str:
         template = """
-        You are a helpful, polite, fact-based tutor. You are teaching university students about Machine Learning and Data analysis using Python. You will answer the question in a brief and simple manner. If the student asked you about non academic related stuffs, you may politely guide the student to only chat with you about academic related content. You may use the context provided below if it is useful to answer the question. 
+        You are a helpful, polite, fact-based assistant. You are teaching university students about Data Science and Artificial Intelligence using Python. The module code is MS0003. You will answer the question in a brief and simple manner. If the student asked you about non academic related stuffs, you may politely guide the student to only chat with you about academic related content. Fristly, you should refer to the history of conversation between you and the student. Then, you may use the context provided below if it is useful to answer the question.
 
-        Context: 
+        History:
+        {history}
+
+        Context:
         {context}
 
-        Question: 
+        Question:
         {question}
 
         Your Answer:
         """
         context = self.search_db(query)
-        context = re.sub(r'(\w)\1{2,}', r'\1\1', context) #remove character level duplicates 
-        return template.format(context=context, question=query)
+        context = re.sub(r'(\w)\1{2,}', r'\1\1', context)
+        return template.format(context=context, question=query, history=history)
 
     def get_completion(self, prompt:str) -> str:
         client = OpenAI()
         completion = client.chat.completions.create(model="gpt-3.5-turbo", messages=[{'role': 'user', "content": prompt}])
         return completion.choices[0].message.content
 
-    def query_openai (self, query: str) -> str:
-        openai.api_key = self.openai_token
-
-        prompt = self.prepare_prompt(query)
+    def query_openai (self, query: str, history: str) -> str:
+        prompt = self.prepare_prompt(query, history)
         print(prompt)
         query_result = self.get_completion(prompt)
         return query_result, prompt
