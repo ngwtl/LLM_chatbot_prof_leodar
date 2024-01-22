@@ -30,7 +30,7 @@ class OPENAI_chat:
         Your Answer:
         """
         context = self.search_db(query)
-        context = re.sub(r'(\w)\1{2,}', r'\1\1', context)
+        context = re.sub(r'(\w)\1{2,}', r'\1\1', context) #remove character level duplicates 
         return template.format(context=context, question=query)
 
     def get_completion(self, prompt:str) -> str:
@@ -44,7 +44,7 @@ class OPENAI_chat:
         prompt = self.prepare_prompt(query)
         print(prompt)
         query_result = self.get_completion(prompt)
-        return query_result
+        return query_result, prompt
 
 
 # Author: Thway
