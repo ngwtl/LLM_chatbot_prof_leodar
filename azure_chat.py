@@ -2,10 +2,12 @@ import os
 from openai import AzureOpenAI
 from langchain.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
+import re
 
 class AZURE_chat:
-  def __init__(self, key: str, endpoint: str, deployment_name: str, max_token=500: int):
-    os.environ["AZURE_OPENAI_KEY"] = key
+  def __init__(self, openai_key: str, azure_key: str, endpoint: str, deployment_name: str, max_token: int = 500):
+    os.environ['OPENAI_API_KEY'] = openai_key
+    os.environ["AZURE_OPENAI_KEY"] = azure_key
     os.environ["AZURE_OPENAI_ENDPOINT"] = endpoint
     self.embedding = OpenAIEmbeddings()
     self.db = FAISS.load_local('faiss_index', self.embedding)
@@ -45,7 +47,7 @@ class AZURE_chat:
       azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
       )
     completion = client.completions.create(model=self.deployment_name, prompt=prompt, max_tokens=self.max_token)
-    return completion.choices[0].message.content
+    return completion.choices[0].text
 
   def query_azure (self, query: str, history: str) -> str:
     prompt = self.prepare_prompt(query, history)
