@@ -17,6 +17,7 @@ LOGGED_IN= __login__obj.build_login_ui()
 username= __login__obj.get_username()
 
 chatbot = OPENAI_chat("your openai api key")
+chatbot2 = AZURE_chat("open_ai_key_for_embedding", "azure_key", "azure_endpoint", "azure_depolyment_name", "max_token")
 
 if LOGGED_IN == True:
   db = TinyDB ('conversation.json')
@@ -36,7 +37,7 @@ if LOGGED_IN == True:
           st.markdown(message['content'])
        chat_history += str(message['role']) + ':' + message['content'] + '\n' 
     if len(chat_history.split('\n')) > 12:
-      chat_history = chat_history [-12:]
+      chat_history = chat_history [:-12]
 
     if prompt := st.chat_input('Write your message here'):
       st.chat_message('user').markdown(prompt)
@@ -46,8 +47,10 @@ if LOGGED_IN == True:
 
       st.session_state.messages.append({'role': 'user', 'content': prompt})
 
-      response, context = chatbot.query_openai(query=prompt, history=chat_history)
+      #response, context = chatbot.query_openai(query=prompt, history=chat_history)
+      response, context = chatbot2.query_azure(query=prompt, history=chat_history)
 
+      print('\nresponse length :', len(response))
       with st.chat_message('assistant'):
         st.markdown(response)
 
@@ -55,5 +58,5 @@ if LOGGED_IN == True:
       db.insert({'role': 'assistant', 'content': response, 'time': str(dt), 'reply_to': prompt, 'context': context})
 
       st.session_state.messages.append({'role': 'assistant', 'content': response})
-  
+
 
