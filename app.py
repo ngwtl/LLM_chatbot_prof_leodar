@@ -36,8 +36,13 @@ if LOGGED_IN == True:
        with st.chat_message(message['role']):
           st.markdown(message['content'])
        chat_history += str(message['role']) + ':' + message['content'] + '\n' 
-    if len(chat_history.split('\n')) > 12:
-      chat_history = chat_history [:-12]
+
+    #remove past chat history 
+    lines = chat_history.split('\n')
+    if len(lines) > 12:
+      chat_history = ""
+      for i in lines[-12:]:
+        chat_history += i + '\n'
 
     if prompt := st.chat_input('Write your message here'):
       st.chat_message('user').markdown(prompt)
