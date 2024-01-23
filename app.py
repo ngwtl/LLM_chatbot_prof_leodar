@@ -2,7 +2,7 @@ import streamlit as st
 from ui import __login__
 from tinydb import TinyDB
 from datetime import datetime
-from openai_llm_chat import OPENAI_chat
+from openai_chat import OPENAI_chat
 
 st.set_page_config(page_title='Prof Leodar', page_icon = 'student')
 
